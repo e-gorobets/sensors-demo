@@ -12,7 +12,7 @@ public class SensorDataScheduler {
         this.sensorDataPublisher = sensorDataPublisher;
     }
 
-    @Scheduled(fixedRate = 5_000) // Каждые 10 минут (600_000)
+    @Scheduled(fixedRate = 5_000) // TODO: поменять частоту на каждые 10 минут (600_000)
     public void publishTemperatureData() {
         sensorDataPublisher.publishTemperature();
     }

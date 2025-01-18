@@ -1,5 +1,6 @@
 package com.company.sensorsview.config;
 import com.company.sensorsview.app.SensorDataListener;
+import io.github.cdimascio.dotenv.Dotenv;
 import io.jmix.core.DataManager;
 import io.jmix.core.security.SystemAuthenticator;
 import org.eclipse.paho.client.mqttv3.MqttClient;
@@ -12,12 +13,14 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManagerFactory;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.security.KeyStore;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
-import java.util.List;
 
 @Configuration
 public class MqttConfig {
@@ -27,12 +30,22 @@ public class MqttConfig {
     @Autowired
     SystemAuthenticator authenticator;
 
-    private static final String TRUSTED_ROOT = "-----------------"; // TODO: Должно браться из файла
+    private static final Dotenv dotenv = Dotenv.load();
+
+    private static final String TRUSTED_ROOT;
+
+    static {
+        try {
+            TRUSTED_ROOT = Files.readString(Path.of(dotenv.get("CERT_FILE")));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Bean
     public MqttClient mqttClient() throws Exception {
-        String broker = "-----------------"; // TODO: MQTT брокер Яндекса
-        String clientId = "-----------------"; // TODO: ClientId
+        String broker = dotenv.get("MQTT_BROKER");
+        String clientId = dotenv.get("CLIENT_ID_LISTENER");
         int keepAliveInterval = 30;
         /*
         От keepAliveInterval значения зависит частота отправки команд PINGREQ.
@@ -44,8 +57,8 @@ public class MqttConfig {
         MqttClient mqttClient = new MqttClient(broker, clientId);
 
         MqttConnectOptions options = new MqttConnectOptions();
-        options.setUserName("-----------------"); // TODO: Замените на ваш client ID
-        options.setPassword("-----------------".toCharArray()); // TODO: Замените на ваш client secret
+        options.setUserName(dotenv.get("USER_NAME"));
+        options.setPassword(dotenv.get("PASSWORD").toCharArray());
         options.setKeepAliveInterval(keepAliveInterval);
 
         SSLSocketFactory sslSocketFactory = getSocketFactory();

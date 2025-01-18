@@ -1,5 +1,6 @@
 package org.lab.prototype;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
@@ -10,8 +11,8 @@ import java.util.Random;
 
 @Service
 public class SensorDataPublisher {
-
     private final MqttClient mqttClient;
+
     private final Random random = new Random();
 
     public SensorDataPublisher(MqttClient mqttClient) {
@@ -19,8 +20,12 @@ public class SensorDataPublisher {
     }
 
     public void publishTemperature() {
-        String topic = "sensors/temperature";
-        int temperature = 20 + random.nextInt(41); // Генерация температуры от 20 до 60
+        Dotenv dotenv = Dotenv.load();
+
+        String topic = dotenv.get("TOPIC");
+        int temperature = random.nextInt(
+                Integer.parseInt(dotenv.get("MIN_TEMPERATURE")),
+                Integer.parseInt(dotenv.get("MAX_TEMPERATURE")));
         Instant time = Instant.now();
         String payload = String.format("{\"temperature\": %d, \"time\": \"%s\"}",
                                                 temperature, time);
