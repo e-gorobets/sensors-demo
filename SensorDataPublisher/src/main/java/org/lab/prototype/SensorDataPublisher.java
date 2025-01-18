@@ -20,12 +20,14 @@ public class SensorDataPublisher {
     }
 
     public void publishTemperature() {
+
         Dotenv dotenv = Dotenv.load();
 
         String topic = dotenv.get("TOPIC");
         int temperature = random.nextInt(
                 Integer.parseInt(dotenv.get("MIN_TEMPERATURE")),
                 Integer.parseInt(dotenv.get("MAX_TEMPERATURE")));
+
         Instant time = Instant.now();
         String payload = String.format("{\"temperature\": %d, \"time\": \"%s\"}",
                                                 temperature, time);

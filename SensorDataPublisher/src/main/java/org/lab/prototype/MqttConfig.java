@@ -41,6 +41,7 @@ public class MqttConfig {
         MqttClient mqttClient = new MqttClient(broker, clientId);
 
         MqttConnectOptions options = new MqttConnectOptions();
+      
         options.setUserName(dotenv.get("USER_NAME"));
         options.setPassword(dotenv.get("PASSWORD").toCharArray());
 
