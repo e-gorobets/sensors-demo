@@ -19,8 +19,8 @@ public class SensorDataPublisher {
     }
 
     public void publishTemperature() {
-        String topic = "sensors/temperature";
-        int temperature = 20 + random.nextInt(41); // Генерация температуры от 20 до 60
+        String topic = "-----------------"; // TODO: Должно браться из файла настройки.
+        int temperature = 20 + random.nextInt(41); // TODO: Генерация температуры от 20 до 60; Должно браться из файла настройки.
         Instant time = Instant.now();
         String payload = String.format("{\"temperature\": %d, \"time\": \"%s\"}",
                                                 temperature, time);
