@@ -24,6 +24,7 @@ public class MqttConfig {
     private static final Dotenv dotenv = Dotenv.load();
 
     private static final String TRUSTED_ROOT;
+    public static long fixedRate;
 
     static {
         try {
@@ -37,6 +38,7 @@ public class MqttConfig {
     public MqttClient mqttClient() throws Exception {
         String broker = dotenv.get("MQTT_BROKER"); // MQTT брокер Яндекса
         String clientId = dotenv.get("CLIENT_ID_PUBLISHER");
+        fixedRate = Long.parseLong(dotenv.get("FIXED_RATE"));
 
         MqttClient mqttClient = new MqttClient(broker, clientId);
 
