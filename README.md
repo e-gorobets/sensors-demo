@@ -53,7 +53,7 @@
 # Установка
 Для работы программы необходима Java 17.
 
-1. Вы можете [скачать Java 17 с официального сайта](https://www.oracle.com/java/technologies/javase-jdk17-downloads.html).
+1. Вы можете [скачать Java 17 с официального сайта](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html).
 
 2. Далее клонируйте репозиторий командой:
 ```bash
