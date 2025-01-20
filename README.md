@@ -1,3 +1,5 @@
+[Видеогайд по установке и демонстрации работы программ](https://disk.yandex.ru/i/JOMWQXW5iwRL9g)
+
 # Два приложения
 
 ## 1. SensorView
